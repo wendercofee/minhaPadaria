@@ -70,14 +70,11 @@ export const initDatabase = async () => {
  * @returns {Promise<Object|null>} Dados do usuário autenticado ou null se não encontrado
  */
 export const authenticateUser = async (username, password) => {
-    console.log(`pegou o usuario ${username} com a senha ${password}` )
     try {
-        console.log("entrou no try")
         const result = await db.getFirstAsync(
             'SELECT * FROM users WHERE username = ? AND password = ?;',
             [username, password]
         );
-        console.log(`pegou este resultado ${result.role}`)
         return result || null;
 
     } catch (error) {

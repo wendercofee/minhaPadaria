@@ -29,7 +29,6 @@ export default function LoginScreen({ navigation }) {
     try {
       // Autenticação do usuário no banco de dados
       const user = await authenticateUser(username, password);
-      console.log("retornou a tela de login")
       setLoading(false)
       if (user) {
         // Redireciona para o painel apropriado com base no perfil do usuário
