@@ -1,10 +1,15 @@
+// Importações necessárias para o funcionamento da aplicação
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator, StyleSheet, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
+// Importação das funções de inicialização do banco de dados
 import { initDatabase } from './database/database';
+
+// Importação das telas da aplicação
 import LoginScreen from './screens/LoginScreen';
 import OwnerDashboard from './screens/OwnerDashboard';
 import EmployeeDashboard from './screens/EmployeeDashboard';

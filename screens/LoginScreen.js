@@ -3,12 +3,23 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button, Text, Card } from 'react-native-paper';
 import { authenticateUser } from '../database/database';
 
+/**
+ * Tela de login da aplicação
+ * Permite que usuários façam login no sistema com diferentes perfis (dono ou funcionário)
+ * @param {Object} navigation - Objeto de navegação do React Navigation
+ */
 export default function LoginScreen({ navigation }) {
+  // Estados para armazenar os valores dos campos de entrada
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Função para lidar com o processo de login
+   * Autentica o usuário e redireciona para o painel apropriado
+   */
   const handleLogin = async () => {
+    // Validação de campos obrigatórios
     if (!username || !password) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos');
       return;
@@ -16,10 +27,12 @@ export default function LoginScreen({ navigation }) {
 
     setLoading(true);
     try {
+      // Autenticação do usuário no banco de dados
       const user = await authenticateUser(username, password);
       console.log("retornou a tela de login")
       setLoading(false)
       if (user) {
+        // Redireciona para o painel apropriado com base no perfil do usuário
         if (user.role === 'DONO') {
           navigation.replace('OwnerDashboard');
         } else if (user.role === 'FUNCIONARIO') {
@@ -27,6 +40,7 @@ export default function LoginScreen({ navigation }) {
         }
         
       } else {
+        // Exibe mensagem de erro caso as credenciais sejam inválidas
         Alert.alert(
         'Erro',
         'Usuário ou senha incorretos'
@@ -34,6 +48,7 @@ export default function LoginScreen({ navigation }) {
       }
 
     } catch (error) {
+      // Trata erros durante o processo de autenticação
       console.log(error);
       setLoading(false);
       Alert.alert(

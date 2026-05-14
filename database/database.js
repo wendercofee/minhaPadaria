@@ -1,8 +1,13 @@
 import * as SQLite from 'expo-sqlite';
 
+// Abre o banco de dados SQLite
 const db = SQLite.openDatabaseSync('bakery.db');
 
-// Inicializa o banco
+/**
+ * Inicializa o banco de dados criando as tabelas necessárias e usuários padrão
+ * Cria tabelas para usuários, produtos e vendas com suas devidas relações
+ * @returns {Promise<void>} Promessa de inicialização do banco de dados
+ */
 export const initDatabase = async () => {
 
     try {
@@ -34,14 +39,14 @@ export const initDatabase = async () => {
             );
         `);
 
-        // Usuário admin padrão
+        // Cria usuário administrador padrão (dono da padaria)
         await db.runAsync(
             `INSERT OR IGNORE INTO users (username, password, role)
              VALUES (?, ?, ?);`,
             ['admin', 'admin123', 'DONO']
         );
 
-        // Usuário funcionário padrão
+        // Cria usuário funcionário padrão
         await db.runAsync(
             `INSERT OR IGNORE INTO users (username, password, role)
              VALUES (?, ?, ?);`,
@@ -58,7 +63,12 @@ export const initDatabase = async () => {
 
 };
 
-// Autenticar usuário
+/**
+ * Autentica um usuário no sistema verificando nome de usuário e senha
+ * @param {string} username - Nome de usuário
+ * @param {string} password - Senha do usuário
+ * @returns {Promise<Object|null>} Dados do usuário autenticado ou null se não encontrado
+ */
 export const authenticateUser = async (username, password) => {
     console.log(`pegou o usuario ${username} com a senha ${password}` )
     try {
@@ -79,7 +89,16 @@ export const authenticateUser = async (username, password) => {
 
 };
 
-// Inserir produto
+/**
+ * Insere um novo produto no banco de dados
+ * @param {Object} product - Objeto contendo os dados do produto
+ * @param {string} product.name - Nome do produto
+ * @param {number} product.preco_custo - Preço de custo do produto
+ * @param {number} product.preco_venda - Preço de venda do produto
+ * @param {number} product.estoque_min - Estoque mínimo do produto
+ * @param {number} product.quantidade - Quantidade em estoque do produto
+ * @returns {Promise<number|null>} ID do produto inserido ou null em caso de erro
+ */
 export const insertProduct = async (product) => {
 
     try {

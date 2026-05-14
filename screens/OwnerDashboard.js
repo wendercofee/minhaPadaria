@@ -3,17 +3,28 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { Button, Card, Text, Badge, Divider } from 'react-native-paper';
 import { getDailySalesSummary, getLowStockProducts } from '../database/database';
 
+/**
+ * Painel do dono da padaria
+ * Exibe resumo das vendas do dia, alertas de estoque e menu de navegação
+ * @param {Object} navigation - Objeto de navegação do React Navigation
+ */
 export default function OwnerDashboard({ navigation }) {
+  // Estados para armazenar os dados do dashboard
   const [dailySummary, setDailySummary] = useState({ total_revenue: 0, total_profit: 0 });
   const [lowStockCount, setLowStockCount] = useState(0);
 
+  // Carrega os dados do dashboard ao montar o componente
   useEffect(() => {
     loadDashboardData();
   }, []);
 
+  /**
+   * Carrega os dados do dashboard do banco de dados
+   * Inclui resumo de vendas do dia e produtos com estoque baixo
+   */
   const loadDashboardData = async () => {
     try {
-
+      // Carrega dados em paralelo para melhor performance
       const [summary, lowStockProducts] = await Promise.all([
         getDailySalesSummary(),
         getLowStockProducts()
@@ -23,7 +34,7 @@ export default function OwnerDashboard({ navigation }) {
       setLowStockCount(lowStockProducts.length);
 
     } catch (error) {
-
+      // Trata erros durante o carregamento dos dados
       console.log(error);
 
       Alert.alert(
@@ -37,6 +48,7 @@ export default function OwnerDashboard({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {/* Card com resumo das vendas do dia */}
       <Card style={styles.card}>
         <Card.Title title="Resumo do Dia" />
         <Card.Content>
@@ -54,6 +66,7 @@ export default function OwnerDashboard({ navigation }) {
         </Card.Content>
       </Card>
 
+      {/* Card de alerta de estoque baixo (exibido apenas quando há produtos com estoque baixo) */}
       {lowStockCount > 0 && (
         <Card style={[styles.card, styles.alertCard]}>
           <Card.Title 
@@ -75,6 +88,7 @@ export default function OwnerDashboard({ navigation }) {
         </Card>
       )}
 
+      {/* Card com menu de navegação principal */}
       <Card style={styles.card}>
         <Card.Title title="Menu Principal" />
         <Card.Content>
