@@ -53,13 +53,13 @@ minhaPadaria/
 3. **Executando o aplicativo**
    ```bash
    # Para iniciar o aplicativo em modo de desenvolvimento
-   expo start
+   npm run web
    
    # Para executar no Android
-   expo start --android
+   npm run android
    
    # Para executar no iOS
-   expo start --ios
+   npm run ios
    ```
 
 ## 🔧 Usuários Padrão
