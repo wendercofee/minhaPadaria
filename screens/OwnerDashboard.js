@@ -54,13 +54,13 @@ export default function OwnerDashboard({ navigation }) {
         <Card.Content>
           <View style={styles.summaryRow}>
             <Text style={styles.summaryLabel}>Faturamento:</Text>
-            <Text style={styles.summaryValue}>R$ {dailySummary.total_revenue.toFixed(2)}</Text>
+            <Text style={styles.summaryValue}>R$ {dailySummary.total_revenue != null && !isNaN(Number(dailySummary.total_revenue)) ? Number(dailySummary.total_revenue).toFixed(2) : '0.00'}</Text>
           </View>
           <Divider style={styles.divider} />
           <View style={styles.summaryRow}>
             <Text style={styles.summaryLabel}>Lucro:</Text>
             <Text style={[styles.summaryValue, { color: dailySummary.total_profit >= 0 ? 'green' : 'red' }]}>
-              R$ {dailySummary.total_profit.toFixed(2)}
+              R$ {dailySummary.total_profit != null && !isNaN(Number(dailySummary.total_profit)) ? Number(dailySummary.total_profit).toFixed(2) : '0.00'}
             </Text>
           </View>
         </Card.Content>
